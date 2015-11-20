@@ -5,6 +5,8 @@
 
 class QLineEdit;
 
+class ApplicationScanner;
+
 class MainWindow:
 public QWidget
 {
@@ -15,9 +17,11 @@ public QWidget
 
 	public slots:
 		void buttonClicked();
+		void textChanged(const QString &);
 
 	private:
 		QLineEdit * textbox;
+		ApplicationScanner * apps;
 };
 
 #endif
