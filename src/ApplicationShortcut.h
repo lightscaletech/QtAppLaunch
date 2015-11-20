@@ -4,17 +4,30 @@
 #include <QObject>
 #include <QString>
 
+class QFileInfo;
+
 class ApplicationShortcut:
 public QObject
 {
 	public:
-		ApplicationShortcut(QObject * = NULL);
+		ApplicationShortcut(const QFileInfo &, QObject * = NULL);
 		~ApplicationShortcut();
 
+		bool hasFailed();
+		void run();
+
+		QString & getBaseFileName();
+		QString & getApplicationName();
+		QString & getExecutable();
+
 	private:
-		QString fileName;
+		QString baseFileName;
+		QString applicationName;
 		QString executable;
-		QString catagory;
+
+		bool failed;
+
+		void setFailed(bool = true);
 };
 
 #endif
