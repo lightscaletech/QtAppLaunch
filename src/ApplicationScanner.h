@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QList>
 
+#define APPLICTION_SHOTCUT_PATH "/usr/share/applications"
+
 class ApplicationShortcut;
 
 typedef QList<ApplicationShortcut *> AppList;
@@ -15,11 +17,12 @@ public QObject
 		ApplicationScanner(QObject * = NULL);
 		~ApplicationScanner();
 
-		AppList findApplication(const QString &);
+		AppList find(const QString &);
 
 	private:
 		AppList list;
 
+		bool testItem(const QString &, const QString &);
 		void generateList();
 
 };
