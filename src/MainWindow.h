@@ -18,6 +18,7 @@ public QWidget
 	public slots:
 		void buttonClicked();
 		void textChanged(const QString &);
+		void center();
 
 	private:
 		QLineEdit * textbox;

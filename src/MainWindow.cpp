@@ -8,11 +8,13 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QProcess>
+#include <QDesktopWidget>
+#include <QPoint>
 
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget * parent):
-QWidget(parent),
+QWidget(parent, Qt::FramelessWindowHint),
 textbox(NULL),
 apps(NULL)
 {
@@ -34,15 +36,30 @@ apps(NULL)
 			this, 		&MainWindow::textChanged);
 
 	// build layout
+	textbox->setMinimumWidth(200);
 	this->setLayout(layout);
 	layout->addWidget(textbox);
 	layout->addWidget(btnStart);
 
 	// resize
 	this->resize(this->sizeHint());
+	this->center();
 }
 
 MainWindow::~MainWindow(){}
+
+void MainWindow::center()
+{
+	QRect rect = this->rect();
+	QDesktopWidget dwidg;
+	QRect drect = dwidg.availableGeometry();
+	QPoint pos;
+
+	pos.setX((drect.width() / 2) - (rect.width() / 2));
+	pos.setY((drect.height() / 2) - (rect.height() / 2));
+
+	this->move(pos);
+}
 
 void MainWindow::textChanged(const QString & text)
 {
