@@ -1,9 +1,13 @@
 #include "WidgResults.h"
 
-WidgResults::WidgResults(QWidget * parent):
-QWidget(parent)
-{
+#include <QVBoxLayout>
 
+WidgResults::WidgResults(QWidget * parent):
+QWidget(parent),
+layout(NULL)
+{
+	layout = new QVBoxLayout();
+	this->setLayout(layout);
 }
 
 WidgResults::~WidgResults(){}

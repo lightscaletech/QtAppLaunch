@@ -5,6 +5,8 @@
 
 #include <QWidget>
 
+class QVBoxLayout;
+
 class WidgResults:
 public QWidget
 {
@@ -15,6 +17,7 @@ public QWidget
 		void show(const AppList &);
 		void clear();
 	private:
+		QVBoxLayout * layout;
 };
 
 #endif
