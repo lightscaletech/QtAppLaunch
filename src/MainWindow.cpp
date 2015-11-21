@@ -6,6 +6,7 @@
 
 #include <QApplication>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QProcess>
@@ -20,11 +21,11 @@ textbox(NULL),
 apps(NULL)
 {
 	apps = new ApplicationScanner(this);
-	QHBoxLayout * layout = new QHBoxLayout();
 	textbox = new QLineEdit(this);
 	results = new WidgResults(this);
+	QVBoxLayout * vlayout = new QVBoxLayout();
+	QHBoxLayout * layout = new QHBoxLayout();
 	QPushButton * btnStart = new QPushButton("Run", this);
-
 
 	// connect button
 	connect(btnStart, 	&QPushButton::clicked,
@@ -40,9 +41,13 @@ apps(NULL)
 
 	// build layout
 	textbox->setMinimumWidth(200);
-	this->setLayout(layout);
+	this->setLayout(vlayout);
+	
 	layout->addWidget(textbox);
 	layout->addWidget(btnStart);
+
+	vlayout->addLayout(layout);
+	vlayout->addWidget(results);
 
 	// resize
 	this->resize(this->sizeHint());
