@@ -42,7 +42,7 @@ apps(NULL)
 	// build layout
 	textbox->setMinimumWidth(200);
 	this->setLayout(vlayout);
-	
+
 	layout->addWidget(textbox);
 	layout->addWidget(btnStart);
 
@@ -50,13 +50,13 @@ apps(NULL)
 	vlayout->addWidget(results);
 
 	// resize
-	this->resize(this->sizeHint());
-	this->center();
+	this->shrink();
+	this->centre();
 }
 
 MainWindow::~MainWindow(){}
 
-void MainWindow::center()
+void MainWindow::centre()
 {
 	QRect rect = this->rect();
 	QDesktopWidget dwidg;
@@ -69,16 +69,23 @@ void MainWindow::center()
 	this->move(pos);
 }
 
+void MainWindow::shrink(){ this->resize(this->sizeHint()); }
+
 void MainWindow::textChanged(const QString & text)
 {
-	if(text.count() < 2) return;
+	if(text.count() < 2)
+	{
+		results->clear();
+		this->shrink();
+		this->centre();
+		return;
+	}
 
 	AppList list = apps->find(text);
 
-	for(auto item : list)
-	{
-		qDebug() << item->getApplicationName();
-	}
+	results->show(list);
+	this->shrink();
+	this->centre();
 }
 
 void MainWindow::buttonClicked()
