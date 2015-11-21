@@ -6,6 +6,7 @@
 class QLineEdit;
 
 class ApplicationScanner;
+class WidgResults;
 
 class MainWindow:
 public QWidget
@@ -23,6 +24,7 @@ public QWidget
 	private:
 		QLineEdit * textbox;
 		ApplicationScanner * apps;
+		WidgResults * results;
 };
 
 #endif

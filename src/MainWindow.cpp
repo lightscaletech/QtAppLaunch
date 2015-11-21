@@ -2,6 +2,7 @@
 
 #include "ApplicationScanner.h"
 #include "ApplicationShortcut.h"
+#include "WidgResults.h"
 
 #include <QApplication>
 #include <QHBoxLayout>
@@ -21,7 +22,9 @@ apps(NULL)
 	apps = new ApplicationScanner(this);
 	QHBoxLayout * layout = new QHBoxLayout();
 	textbox = new QLineEdit(this);
+	results = new WidgResults(this);
 	QPushButton * btnStart = new QPushButton("Run", this);
+
 
 	// connect button
 	connect(btnStart, 	&QPushButton::clicked,
