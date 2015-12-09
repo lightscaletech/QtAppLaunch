@@ -35,7 +35,7 @@ AppList ApplicationScanner::find(const QString & term)
 
 bool ApplicationScanner::testItem(const QString & item, const QString & term)
 {
-	return item.startsWith(term);
+	return item.startsWith(term, Qt::CaseInsensitive);
 }
 
 void ApplicationScanner::generateList()
