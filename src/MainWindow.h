@@ -17,7 +17,6 @@ public QWidget
 		~MainWindow();
 
 	public slots:
-		void buttonClicked();
 		void textChanged(const QString &);
 		void centre();
 		void shrink();

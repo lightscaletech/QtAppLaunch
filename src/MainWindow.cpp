@@ -12,6 +12,7 @@
 #include <QProcess>
 #include <QDesktopWidget>
 #include <QPoint>
+#include <QShortcut>
 
 #include <QDebug>
 
@@ -27,17 +28,28 @@ apps(NULL)
 	QHBoxLayout * layout = new QHBoxLayout();
 	QPushButton * btnStart = new QPushButton("Run", this);
 
-	// connect button
-	connect(btnStart, 	&QPushButton::clicked,
-			this,		&MainWindow::buttonClicked);
-
-	// connect enterpressed on textbox 
-	connect(textbox, 	&QLineEdit::returnPressed,
-			this, 		&MainWindow::buttonClicked);
 
 	// connect enterpressed on textbox 
 	connect(textbox, 	&QLineEdit::textChanged,
 			this, 		&MainWindow::textChanged);
+
+	QShortcut * shortcut = NULL;
+	
+	shortcut = new QShortcut(QKeySequence(Qt::Key_Return), this);
+	connect(shortcut, 	&QShortcut::activated,
+			results, 	&WidgResults::run);
+
+	shortcut = new QShortcut(QKeySequence(Qt::Key_Enter), this);
+	connect(shortcut, 	&QShortcut::activated,
+			results, 	&WidgResults::run);
+
+	shortcut = new QShortcut(QKeySequence(Qt::Key_Down), this);
+	connect(shortcut, 	&QShortcut::activated,
+			results, 	&WidgResults::next);
+
+	shortcut = new QShortcut(QKeySequence(Qt::Key_Up), this);
+	connect(shortcut, 	&QShortcut::activated,
+			results, 	&WidgResults::prev);
 
 	// build layout
 	textbox->setMinimumWidth(200);
@@ -76,6 +88,7 @@ void MainWindow::textChanged(const QString & text)
 	if(text.count() < 2)
 	{
 		results->clear();
+		this->updateGeometry();
 		this->shrink();
 		this->centre();
 		return;
@@ -84,13 +97,7 @@ void MainWindow::textChanged(const QString & text)
 	AppList list = apps->find(text);
 
 	results->show(list);
+	this->updateGeometry();
 	this->shrink();
 	this->centre();
-}
-
-void MainWindow::buttonClicked()
-{
-	QString command = textbox->text();
-	QProcess::startDetached(command);
-	QApplication::exit();
 }
