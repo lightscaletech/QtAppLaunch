@@ -21,6 +21,9 @@ SOURCES += src/ApplicationScanner.cpp
 HEADERS += src/WidgResults.h
 SOURCES += src/WidgResults.cpp
 
+HEADERS += src/WidgResultItem.h
+SOURCES += src/WidgResultItem.cpp
+
 HEADERS += src/MainWindow.h
 SOURCES += src/MainWindow.cpp
 
