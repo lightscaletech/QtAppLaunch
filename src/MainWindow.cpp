@@ -13,6 +13,7 @@
 #include <QDesktopWidget>
 #include <QPoint>
 #include <QShortcut>
+#include <QTimer>
 
 #include <QDebug>
 
@@ -26,8 +27,11 @@ apps(NULL)
 	results = new WidgResults(this);
 	QVBoxLayout * vlayout = new QVBoxLayout();
 	QHBoxLayout * layout = new QHBoxLayout();
-	QPushButton * btnStart = new QPushButton("Run", this);
 
+	QSizePolicy policy =  this->sizePolicy();
+	policy.setHorizontalPolicy(QSizePolicy::Minimum);
+	policy.setVerticalPolicy(QSizePolicy::Minimum);
+	this->setSizePolicy(policy);
 
 	// connect enterpressed on textbox 
 	connect(textbox, 	&QLineEdit::textChanged,
@@ -51,22 +55,30 @@ apps(NULL)
 	connect(shortcut, 	&QShortcut::activated,
 			results, 	&WidgResults::prev);
 
+	shortcut = new QShortcut(QKeySequence(Qt::Key_Escape), this);
+	connect(shortcut, 	&QShortcut::activated,
+			QApplication::instance(), &QApplication::quit);
+
 	// build layout
-	textbox->setMinimumWidth(200);
+	textbox->setMinimumWidth(275);
 	this->setLayout(vlayout);
 
 	layout->addWidget(textbox);
-	layout->addWidget(btnStart);
 
 	vlayout->addLayout(layout);
 	vlayout->addWidget(results);
 
 	// resize
-	this->shrink();
-	this->centre();
+	this->positionRefresh();
 }
 
 MainWindow::~MainWindow(){}
+
+void MainWindow::positionRefresh()
+{
+	QTimer::singleShot(0, this, &MainWindow::shrink);
+	QTimer::singleShot(0, this, &MainWindow::centre);
+}
 
 void MainWindow::centre()
 {
@@ -81,23 +93,19 @@ void MainWindow::centre()
 	this->move(pos);
 }
 
-void MainWindow::shrink(){ this->resize(this->sizeHint()); }
+void MainWindow::shrink(){ this->resize(this->minimumSizeHint()); }
 
 void MainWindow::textChanged(const QString & text)
 {
 	if(text.count() < 2)
 	{
 		results->clear();
-		this->updateGeometry();
-		this->shrink();
-		this->centre();
+		this->positionRefresh();
 		return;
 	}
 
 	AppList list = apps->find(text);
 
 	results->show(list);
-	this->updateGeometry();
-	this->shrink();
-	this->centre();
+	this->positionRefresh();
 }

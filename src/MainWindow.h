@@ -18,6 +18,7 @@ public QWidget
 
 	public slots:
 		void textChanged(const QString &);
+		void positionRefresh();
 		void centre();
 		void shrink();
 

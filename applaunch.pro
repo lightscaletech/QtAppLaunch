@@ -28,3 +28,7 @@ HEADERS += src/MainWindow.h
 SOURCES += src/MainWindow.cpp
 
 SOURCES += src/applaunch.cpp
+
+target.path = /usr/local/bin
+
+INSTALLS += target

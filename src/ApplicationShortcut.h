@@ -20,6 +20,9 @@ public QObject
 		QString & getApplicationName();
 		QString & getExecutable();
 
+		bool operator<(ApplicationShortcut *);
+		bool operator>(ApplicationShortcut *);
+
 	private:
 		QString baseFileName;
 		QString applicationName;

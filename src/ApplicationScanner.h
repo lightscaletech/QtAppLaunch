@@ -21,6 +21,8 @@ public QObject
 
 	private:
 		AppList list;
+		
+		void sort(AppList *);
 
 		bool testItem(const QString &, const QString &);
 		void generateList();

@@ -29,8 +29,6 @@ failed(false)
 		setFailed();
 		return;
 	}
-
-
 }
 
 ApplicationShortcut::~ApplicationShortcut(){}
@@ -39,6 +37,7 @@ bool ApplicationShortcut::hasFailed() { return failed; }
 
 void ApplicationShortcut::run()
 {
+	executable.remove(QRegExp(" \\%[A-Za-z0-9]"));
 	QProcess::startDetached(executable);
 	QApplication::exit();
 }
@@ -46,3 +45,14 @@ void ApplicationShortcut::run()
 QString & ApplicationShortcut::getBaseFileName(){ return baseFileName; }
 QString & ApplicationShortcut::getApplicationName(){ return applicationName; }
 QString & ApplicationShortcut::getExecutable(){ return executable; }
+
+
+bool ApplicationShortcut::operator<(ApplicationShortcut * app)
+{
+	return applicationName < app->getApplicationName();
+}
+
+bool ApplicationShortcut::operator>(ApplicationShortcut * app)
+{
+	return applicationName > app->getApplicationName();
+}

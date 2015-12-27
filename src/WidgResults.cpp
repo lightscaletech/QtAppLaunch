@@ -12,7 +12,9 @@ layout(NULL),
 selected(NULL)
 {
 	layout = new QVBoxLayout();
+	layout->setContentsMargins(0, 0, 0, 0);
 	this->setLayout(layout);
+	this->hide();
 }
 
 WidgResults::~WidgResults(){}
@@ -48,6 +50,8 @@ void WidgResults::show(const AppList & list)
 void WidgResults::select(int index)
 {
 	QLayoutItem * lItem = layout->itemAt(index);
+	if(!lItem) return;
+	
 	QWidget * widg = lItem->widget();
 	if(!widg) return;
 
