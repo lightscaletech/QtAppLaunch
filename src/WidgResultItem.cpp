@@ -13,4 +13,3 @@ WidgResultItem::~WidgResultItem(){}
 
 void WidgResultItem::setApp(ApplicationShortcut * app) { this->app = app; }
 ApplicationShortcut * WidgResultItem::getApp() { return app; }
-

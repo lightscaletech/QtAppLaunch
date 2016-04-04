@@ -8,16 +8,16 @@ class ApplicationShortcut;
 class WidgResultItem:
 public QLabel
 {
-	public:
-		WidgResultItem(QWidget * = NULL);
-		~WidgResultItem();
+public:
+    WidgResultItem(QWidget * = NULL);
+    ~WidgResultItem();
 
-		void setApp(ApplicationShortcut *);
+    void setApp(ApplicationShortcut *);
 
-		ApplicationShortcut * getApp();
-	
-	private:
-		ApplicationShortcut * app;
+    ApplicationShortcut * getApp();
+
+private:
+    ApplicationShortcut * app;
 };
 
 #endif
