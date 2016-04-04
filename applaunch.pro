@@ -4,6 +4,9 @@ QT += gui
 QT += widgets
 
 CONFIG += c++11
+CONFIG += link_pkgconfig
+
+PKGCONFIG += gtk+-3.0
 
 # Output
 TARGET = bin/applaunch
@@ -12,6 +15,9 @@ QMAKE_CXXFLAGS += -ggdb
 MOC_DIR = moc
 
 # Input
+HEADERS += src/GtkIconLoader.h
+SOURCES += src/GtkIconLoader.cpp
+
 HEADERS += src/ApplicationShortcut.h
 SOURCES += src/ApplicationShortcut.cpp
 
