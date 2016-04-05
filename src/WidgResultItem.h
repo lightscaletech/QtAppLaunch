@@ -1,12 +1,13 @@
 #ifndef _L_WIDG_RESULT_ITEM_
 #define _L_WIDG_RESULT_ITEM_
 
-#include <QLabel>
+#include <QWidget>
 
 class ApplicationShortcut;
+class QLabel;
 
 class WidgResultItem:
-public QLabel
+public QWidget
 {
 public:
     WidgResultItem(QWidget * = NULL);
@@ -17,7 +18,10 @@ public:
     ApplicationShortcut * getApp();
 
 private:
+    void setIcon();
     ApplicationShortcut * app;
+    QLabel * labAppIcon;
+    QLabel * labAppName;
 };
 
 #endif

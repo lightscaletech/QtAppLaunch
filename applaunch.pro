@@ -15,6 +15,9 @@ QMAKE_CXXFLAGS += -ggdb
 MOC_DIR = moc
 
 # Input
+HEADERS += src/GtkInit.h
+SOURCES += src/GtkInit.cpp
+
 HEADERS += src/GtkIconLoader.h
 SOURCES += src/GtkIconLoader.cpp
 

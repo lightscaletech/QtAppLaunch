@@ -7,105 +7,109 @@
 #include <QPalette>
 
 WidgResults::WidgResults(QWidget * parent):
-QWidget(parent),
-layout(NULL),
-selected(NULL)
+    QWidget(parent),
+    layout(NULL),
+    selected(NULL)
 {
-	layout = new QVBoxLayout();
-	layout->setContentsMargins(0, 0, 0, 0);
-	this->setLayout(layout);
-	this->hide();
+    layout = new QVBoxLayout();
+    layout->setContentsMargins(0, 0, 0, 0);
+    this->setLayout(layout);
+    this->hide();
 }
 
 WidgResults::~WidgResults(){}
 
 void WidgResults::clear()
 {
-	foreach (QWidget * w, this->findChildren<QWidget*>()) delete w;
-	this->hide();
-	selected = NULL;
-	this->update();
+    QLayoutItem * layoutItem = NULL;
+    while ((layoutItem = this->layout->takeAt(0)) != NULL)
+    {
+        delete layoutItem->widget();
+        delete layoutItem;
+    }
+
+    this->hide();
+    selected = NULL;
+    this->update();
 }
 
 void WidgResults::show(const AppList & list)
 {
-	clear();
-	if(list.empty()) return;
+    clear();
+    if(list.empty()) return;
 
-	WidgResultItem * resItem = NULL;
+    WidgResultItem * resItem = NULL;
 
-	for (auto item : list)
-	{
-		resItem = new WidgResultItem(this);
-		resItem->setText(item->getApplicationName());
-		resItem->setApp(item);
-		resItem->setAutoFillBackground(true);
+    for (auto item : list)
+    {
+        resItem = new WidgResultItem(this);
+        resItem->setApp(item);
 
-		layout->addWidget(resItem);
-	}	
-	next();
-	QWidget::show();
+        layout->addWidget(resItem);
+    }
+    next();
+    QWidget::show();
 }
 
 void WidgResults::select(int index)
 {
-	QLayoutItem * lItem = layout->itemAt(index);
-	if(!lItem) return;
-	
-	QWidget * widg = lItem->widget();
-	if(!widg) return;
+    QLayoutItem * lItem = layout->itemAt(index);
+    if(!lItem) return;
 
-	WidgResultItem * item =  static_cast<WidgResultItem *>(widg);
+    QWidget * widg = lItem->widget();
+    if(!widg) return;
 
-	if(item == selected) return;
+    WidgResultItem * item =  static_cast<WidgResultItem *>(widg);
 
-	QPalette pal = item->palette();
-	pal.setColor(item->backgroundRole(), QColor(0xC0, 0xC0, 0xC0));
+    if(item == selected) return;
 
-	item->setPalette(pal);
+    QPalette pal = item->palette();
+    pal.setColor(item->backgroundRole(), QColor(0xC0, 0xC0, 0xC0));
 
-	unselect();
-	selected = item;
+    item->setPalette(pal);
+
+    unselect();
+    selected = item;
 }
 
 void WidgResults::unselect()
 {
-	if(!selected) return;
+    if(!selected) return;
 
-	QPalette pal = selected->palette();
-	pal.setColor(selected->backgroundRole(), this->palette().color(this->backgroundRole()));
+    QPalette pal = selected->palette();
+    pal.setColor(selected->backgroundRole(), this->palette().color(this->backgroundRole()));
 
 
-	selected->setPalette(pal);
+    selected->setPalette(pal);
 
-	selected = NULL;
+    selected = NULL;
 }
 
 void WidgResults::next()
 {
-	int index = 0;
+    int index = 0;
 
-	if(selected) index = layout->indexOf(selected) + 1;
+    if(selected) index = layout->indexOf(selected) + 1;
 
-	if(index >= layout->count()) index = 0;
-	else if(index < 0) index = 0;
+    if(index >= layout->count()) index = 0;
+    else if(index < 0) index = 0;
 
-	select(index);
+    select(index);
 }
 
 void WidgResults::prev()
 {
-	int index = layout->count();
+    int index = layout->count();
 
-	if(selected) index = layout->indexOf(selected) - 1;
+    if(selected) index = layout->indexOf(selected) - 1;
 
-	if(index >= layout->count()) index = layout->count() - 1;
-	else if(index < 0) index = layout->count() - 1;
+    if(index >= layout->count()) index = layout->count() - 1;
+    else if(index < 0) index = layout->count() - 1;
 
-	select(index);
+    select(index);
 }
 
 void WidgResults::run()
 {
-	selected->getApp()->run();
+    selected->getApp()->run();
 }

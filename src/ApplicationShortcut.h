@@ -9,28 +9,30 @@ class QFileInfo;
 class ApplicationShortcut:
 public QObject
 {
-	public:
-		ApplicationShortcut(const QFileInfo &, QObject * = NULL);
-		~ApplicationShortcut();
+public:
+    ApplicationShortcut(const QFileInfo &, QObject * = NULL);
+    ~ApplicationShortcut();
 
-		bool hasFailed();
-		void run();
+    bool hasFailed();
+    void run();
 
-		QString & getBaseFileName();
-		QString & getApplicationName();
-		QString & getExecutable();
+    QString & getBaseFileName();
+    QString & getApplicationName();
+    QString & getExecutable();
+    QString & getApplicationIcon();
 
-		bool operator<(ApplicationShortcut *);
-		bool operator>(ApplicationShortcut *);
+    bool operator<(ApplicationShortcut *);
+    bool operator>(ApplicationShortcut *);
 
-	private:
-		QString baseFileName;
-		QString applicationName;
-		QString executable;
+private:
+    QString baseFileName;
+    QString applicationName;
+    QString executable;
+    QString applicationIcon;
 
-		bool failed;
+    bool failed;
 
-		void setFailed(bool = true);
+    void setFailed(bool = true);
 };
 
 #endif
