@@ -2,3 +2,6 @@ Makefile
 bin
 moc
 obj
+.qmake.stash
+applaunch.pro.user
+usage
