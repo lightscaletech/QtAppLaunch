@@ -11,26 +11,26 @@ class WidgResultItem;
 class WidgResults:
 public QWidget
 {
-	Q_OBJECT
-	public:
-		WidgResults(QWidget * = NULL);
-		~WidgResults();
+    Q_OBJECT
+public:
+    WidgResults(QWidget * = NULL);
+    ~WidgResults();
 
-		void show(const AppList &);
-		void clear();
-		
-		void select(int);
-		void unselect();
+    void show(const AppList &);
+    void clear();
 
-	public slots:
+    void select(int);
+    void unselect();
 
-		void next();
-		void prev();
-		void run();
+    public slots:
 
-	private:
-		QVBoxLayout * layout;
-		WidgResultItem * selected;
+        void next();
+        void prev();
+        void run();
+
+private:
+        QVBoxLayout * layout;
+        WidgResultItem * selected;
 };
 
 #endif

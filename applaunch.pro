@@ -2,11 +2,16 @@ TEMPLATE = app
 
 QT += gui
 QT += widgets
+QT += x11extras
 
 CONFIG += c++11
 CONFIG += link_pkgconfig
 
 PKGCONFIG += gtk+-3.0
+
+unix:!macx {
+LIBS += -lX11
+}
 
 # Output
 TARGET = bin/applaunch
@@ -15,6 +20,12 @@ QMAKE_CXXFLAGS += -ggdb
 MOC_DIR = moc
 
 # Input
+HEADERS += src/RunGuard.h
+SOURCES += src/RunGuard.cpp
+
+HEADERS += src/Frequency.h
+SOURCES += src/Frequency.cpp
+
 HEADERS += src/GtkInit.h
 SOURCES += src/GtkInit.cpp
 

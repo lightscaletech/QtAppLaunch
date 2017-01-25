@@ -21,6 +21,8 @@ public:
     QString & getExecutable();
     QString & getApplicationIcon();
 
+    int getRank();
+
     bool operator<(ApplicationShortcut *);
     bool operator>(ApplicationShortcut *);
 
@@ -31,6 +33,8 @@ private:
     QString applicationIcon;
 
     bool failed;
+
+    int rank;
 
     void setFailed(bool = true);
 };

@@ -13,19 +13,19 @@ typedef QList<ApplicationShortcut *> AppList;
 class ApplicationScanner:
 public QObject
 {
-	public:
-		ApplicationScanner(QObject * = NULL);
-		~ApplicationScanner();
+public:
+    ApplicationScanner(QObject * = NULL);
+    ~ApplicationScanner();
 
-		AppList find(const QString &);
+    AppList find(const QString &);
 
-	private:
-		AppList list;
-		
-		void sort(AppList *);
+private:
+    AppList list;
 
-		bool testItem(const QString &, const QString &);
-		void generateList();
+    void sort(AppList *);
+
+    bool testItem(const QString &, const QString &);
+    void generateList();
 
 };
 

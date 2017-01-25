@@ -35,16 +35,23 @@ ApplicationShortcut * WidgResultItem::getApp() { return app; }
 
 void WidgResultItem::setIcon()
 {
+    int labelSize = 18;
     GtkIconLoader icon;
     int iconWidth = 0;
     unsigned char * iconData = icon.getIcon(app->getApplicationIcon(),
                                             iconWidth);
-    QImage image(iconData, iconWidth, iconWidth, QImage::Format_ARGB32);
-    QPixmap pixmap = QPixmap::fromImage(image);
-    labAppIcon->setPixmap(pixmap);
+    if(iconData)
+    {
+        QImage image(iconData, iconWidth, iconWidth,
+                     QImage::Format_RGBA8888);
+        QPixmap pixmap = QPixmap::fromImage(image);
+        labAppIcon->setPixmap(pixmap.scaledToWidth(labelSize,
+                                                   Qt::SmoothTransformation));
+    }
+
     labAppIcon->setSizePolicy(QSizePolicy(QSizePolicy::Minimum,
                                           QSizePolicy::Minimum));
     labAppIcon->setMinimumSize(0, 0);
-    labAppIcon->setMaximumSize(iconWidth, iconWidth);
+    labAppIcon->setMaximumSize(labelSize, labelSize);
     labAppIcon->updateGeometry();
 }

@@ -11,21 +11,24 @@ class WidgResults;
 class MainWindow:
 public QWidget
 {
-	Q_OBJECT
-	public:
-		MainWindow(QWidget * = NULL);
-		~MainWindow();
+    Q_OBJECT
+public:
+    MainWindow(QWidget * = NULL);
+    ~MainWindow();
 
-	public slots:
-		void textChanged(const QString &);
-		void positionRefresh();
-		void centre();
-		void shrink();
-
-	private:
-		QLineEdit * textbox;
-		ApplicationScanner * apps;
-		WidgResults * results;
+public slots:
+    void textChanged(const QString &);
+    void appStateChanged(Qt::ApplicationState);
+    void positionRefresh();
+    void centre();
+    void shrink();
+    void cursorForward();
+    void cursorBackward();
+private:
+    QLineEdit * textbox;
+    ApplicationScanner * apps;
+    WidgResults * results;
+    void initShortcuts();
 };
 
 #endif

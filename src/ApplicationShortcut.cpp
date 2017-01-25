@@ -1,5 +1,7 @@
 #include "ApplicationShortcut.h"
 
+#include "Frequency.h"
+
 #include <QFileInfo>
 #include <QSettings>
 #include <QProcess>
@@ -9,9 +11,11 @@
 
 ApplicationShortcut::ApplicationShortcut(const QFileInfo & file, QObject * parent):
     QObject(parent),
-    failed(false)
+    failed(false),
+    rank(0)
 {
     QSettings settings(file.absoluteFilePath(), QSettings::IniFormat);
+    Frequency freq;
     settings.beginGroup("Desktop Entry");
 
     baseFileName = file.baseName();
@@ -22,6 +26,8 @@ ApplicationShortcut::ApplicationShortcut(const QFileInfo & file, QObject * paren
         setFailed();
         return;
     }
+
+    rank = freq.applicationRank(applicationName);
 
     executable = settings.value("Exec").value<QString>();
     if(applicationName.isEmpty())
@@ -43,8 +49,10 @@ bool ApplicationShortcut::hasFailed() { return failed; }
 
 void ApplicationShortcut::run()
 {
+    Frequency freq;
     executable.remove(QRegExp(" \\%[A-Za-z0-9]"));
     QProcess::startDetached(executable);
+    freq.applicationSelected(applicationName);
     QApplication::exit();
 }
 
@@ -52,13 +60,16 @@ QString & ApplicationShortcut::getBaseFileName(){ return baseFileName; }
 QString & ApplicationShortcut::getApplicationName(){ return applicationName; }
 QString & ApplicationShortcut::getExecutable(){ return executable; }
 QString & ApplicationShortcut::getApplicationIcon(){ return applicationIcon; }
+int ApplicationShortcut::getRank(){ return rank; }
 
 bool ApplicationShortcut::operator<(ApplicationShortcut * app)
 {
-    return applicationName < app->getApplicationName();
+    return rank == app->getRank() ? applicationName < app->getApplicationName()
+                                   : rank < app->getRank();
 }
 
 bool ApplicationShortcut::operator>(ApplicationShortcut * app)
 {
-    return applicationName > app->getApplicationName();
+    return rank == app->getRank() ? applicationName > app->getApplicationName()
+        : rank > app->getRank();
 }
