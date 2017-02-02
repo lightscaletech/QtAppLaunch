@@ -57,7 +57,8 @@ MainWindow::MainWindow(QWidget * parent):
     this->setSizePolicy(policy);
 
     // stop application when focus lost
-    connect(QApplication::instance(), &QGuiApplication::applicationStateChanged,
+    connect(dynamic_cast<QGuiApplication *>(QApplication:: instance()),
+            &QGuiApplication::applicationStateChanged,
             this, &MainWindow::appStateChanged);
 
     // connect enter pressed on textbox
@@ -87,7 +88,7 @@ MainWindow::~MainWindow(){}
 
 void MainWindow::appStateChanged(Qt::ApplicationState state)
 {
-
+    if (state != Qt::ApplicationActive) QApplication::exit();
 }
 
 void MainWindow::initShortcuts()
