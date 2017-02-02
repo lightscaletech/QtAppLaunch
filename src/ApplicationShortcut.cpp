@@ -9,6 +9,17 @@
 
 #include <QDebug>
 
+class QDetachableProcess : public QProcess
+{
+public:
+    QDetachableProcess(QObject *parent = 0) : QProcess(parent){}
+    void detach()
+    {
+        this->waitForStarted();
+        setProcessState(QProcess::NotRunning);
+    }
+};
+
 ApplicationShortcut::ApplicationShortcut(const QFileInfo & file, QObject * parent):
     QObject(parent),
     failed(false),
@@ -50,8 +61,12 @@ bool ApplicationShortcut::hasFailed() { return failed; }
 void ApplicationShortcut::run()
 {
     Frequency freq;
+    QDetachableProcess proc;
     executable.remove(QRegExp(" \\%[A-Za-z0-9]"));
-    QProcess::startDetached(executable);
+    proc.setEnvironment(QProcess::systemEnvironment());
+    proc.start(executable);
+    proc.detach();
+    //QProcess::startDetached(executable);
     freq.applicationSelected(applicationName);
     QApplication::exit();
 }
